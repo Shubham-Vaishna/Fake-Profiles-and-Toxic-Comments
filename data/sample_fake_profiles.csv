@@ -1,0 +1,30 @@
+import pandas as pd
+import numpy as np
+import os
+
+np.random.seed(42)
+rows = 200
+
+# Simulate fake vs real profiles (50/50)
+is_fake = np.random.choice([0, 1], size=rows)
+
+# Features
+data = {
+    "account_age_days": np.random.randint(1, 2000, rows),
+    "num_friend_requests": np.random.randint(0, 500, rows),
+    "avg_messages_per_day": np.round(np.random.uniform(0.1, 50, rows), 2),
+    "has_profile_picture": np.random.choice([0, 1], size=rows, p=[0.3, 0.7]),
+    "location_matches_ip": np.random.choice([0, 1], size=rows, p=[0.7, 0.3]),
+    "bio_length_chars": np.random.randint(0, 300, rows),
+    "posting_frequency_per_week": np.round(np.random.uniform(0.1, 15, rows), 2),
+    "avg_comment_length": np.random.randint(5, 500, rows),
+    "profile_reports_count": np.random.randint(0, 20, rows),
+    "num_groups_joined": np.random.randint(0, 50, rows),
+    "is_fake": is_fake
+}
+
+df = pd.DataFrame(data)
+
+os.makedirs("data", exist_ok=True)
+df.to_csv("data/sample_fake_profiles.csv", index=False)
+print("✅ Created data/sample_fake_profiles.csv with", len(df), "rows")
